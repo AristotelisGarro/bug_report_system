@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'BugReportSystem-root',
+  selector: 'brs-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
