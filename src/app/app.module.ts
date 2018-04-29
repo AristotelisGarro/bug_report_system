@@ -3,16 +3,21 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { BuglistComponent } from './buglist/buglist.component';
+import { BugserviceService } from './bugservice.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
   declarations: [
-    AppComponent
-  ],
+    AppComponent,
+    BuglistComponent
+],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [BugserviceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
