@@ -13,7 +13,10 @@ export class BuglistComponent implements OnInit {
   constructor(private bugService: BugserviceService) { }
 
   ngOnInit() {
-    this.bugs = this.bugService.getBugs();
+    this.bugService.getBugs().subscribe((data) => {
+      this.bugs = data;
+      console.table(this.bugs);
+    });
   }
 
 }

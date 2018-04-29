@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Bugdetails } from './bugdetails';
 import { Observable } from 'rxjs/Observable';
+import {map} from 'rxjs/operator/map';
 
 @Injectable()
 export class BugserviceService {
@@ -10,12 +11,7 @@ export class BugserviceService {
 bugs: Bugdetails[];
 
 constructor(private http: HttpClient) { }
-  getBugs() {
-     this.http.get(this.ENDPOINT + 'bugs').subscribe(
-       (response: Bugdetails[]) => {
-         this.bugs = response;
-       }
-     );
-     return this.bugs;
+  getBugs(): Observable<Array<Bugdetails>> {
+    return this.http.get<Array<Bugdetails>>(this.ENDPOINT + 'bugs');
   }
 }
