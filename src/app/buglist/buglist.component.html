@@ -1,16 +1,66 @@
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Priority</th>
-    <th>Reporter</th>
-    <th>Date</th>
-    <th>Status</th>
-  </tr>
-  <tr *ngFor="let bug of bugs">
-    <td>{{ bug.title }}</td>
-    <td>{{ bug.priority }}</td>
-    <td>{{ bug.reporter }}</td>
-    <td>{{ bug.createdAt }}</td>
-    <td>{{ bug.status }}</td>
-  </tr>
+<table class="table table-bordered">
+  <thead>
+    <tr class="">
+      <th>
+        <a href="javascript:void(0)" (click)="sortBy('title')">Title
+          <i class="fa" [ngClass]="asc == false ? 'fa-arrow-up' : 'fa-arrow-down'" [hidden]="sortedColumn!='title'"></i>
+        </a>
+      </th>
+      <th>
+        <a href="javascript:void(0)" (click)="sortBy('priority')">Priority
+          <i class="fa" [ngClass]="asc == false ? 'fa-arrow-up' : 'fa-arrow-down'" [hidden]="sortedColumn!='priority'"></i>
+        </a>
+      </th>
+      <th>
+        <a href="javascript:void(0)" (click)="sortBy('reporter')">Reporter
+          <i class="fa" [ngClass]="asc == false ? 'fa-arrow-up' : 'fa-arrow-down'" [hidden]="sortedColumn!='reporter'"></i>
+        </a>
+      </th>
+      <th>
+        <a href="javascript:void(0)" (click)="sortBy('createdAt')">Date
+          <i class="fa" [ngClass]="asc == false ? 'fa-arrow-up' : 'fa-arrow-down'" [hidden]="sortedColumn!='createdAt'"></i>
+        </a>
+      </th>
+      <th>
+        <a href="javascript:void(0)" (click)="sortBy('status')">Status
+          <i class="fa" [ngClass]="asc == false ? 'fa-arrow-up' : 'fa-arrow-down'" [hidden]="sortedColumn!='status'"></i>
+        </a>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let bug of bugs">
+      <td>{{ bug.title }}</td>
+      <td>{{ bug.priority }}</td>
+      <td>{{ bug.reporter }}</td>
+      <td>{{ bug.createdAt | date:'d/M/yy, HH:mm' }}</td>
+      <td>{{ bug.status || 'Unknown'}}</td>
+    </tr>
+  </tbody>
 </table>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item" [ngClass]="{disabled: page == 0}">
+      <a class="page-link" href="#" aria-label="Previous" (click)="page=page-1;getBugs()">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    <li class="page-item" *ngFor="let pg of totalpagesArray" [ngClass]="{active: pg==page}">
+      <a class="page-link" href="#" (click)="page=pg;getBugs()">{{pg+1}}</a>
+    </li>
+    <li class="page-item" [ngClass]="{disabled: page == totalpagesArray.length - 1}">
+      <a class="page-link" href="#" aria-label="Next" (click)="page=page+1;getBugs()">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+    <li>
+      <div class="form-group col-6">
+        <input type="number" class="form-control" name="pagesize" id="pagesize" aria-describedby="pagesize" [(ngModel)]="pagesize"
+          (ngModelChange)="page=0;getBugs()">
+      </div>
+    </li>
+  </ul>
+</nav>
