@@ -1,6 +1,7 @@
 export interface IBugdetails {
   title: string;
-  priority: number;
+  description: string;
+  priority: string;
   reporter?: string;
   createdAt: string;
   status?: string;

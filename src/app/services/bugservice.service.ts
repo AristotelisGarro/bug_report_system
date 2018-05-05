@@ -18,4 +18,8 @@ export class BugserviceService {
   getBugsSorted(column: string, asc: string, page: number, size: number): Observable<Array<IBugdetails>> {
     return this.http.get<Array<IBugdetails>>(this.ENDPOINT + 'bugs?sort=' + column + ',' + asc + '&page=' + page + '&size=' + size);
   }
+
+  createBug(data: IBugdetails) {
+    return this.http.post(this.ENDPOINT + 'bugs', data);
+  }
 }
