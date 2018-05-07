@@ -31,7 +31,7 @@ export class BuglistComponent implements OnInit {
     const direction = this.asc ? 'asc' : 'desc';
     this.bugService.getBugsSorted(this.sortedColumn, direction, this.page, this.pagesize).subscribe((data) => {
       this.bugs = data;
-      this.totalpages = Math.floor( this.totalBugs / this.pagesize );
+      this.totalpages = Math.ceil( this.totalBugs / this.pagesize );
       this.totalpagesArray = Array(this.totalpages || 1).fill(this.totalpages || 1).map((x, i) => i);
     });
   }
