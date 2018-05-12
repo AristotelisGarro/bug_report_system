@@ -1,33 +1,18 @@
-<<<<<<< HEAD
-<form #form="ngForm" class="" (submit)="formSubmit(form)" [formGroup]="bugForm">
-=======
 <form [formGroup]="bugForm" class="form" (submit)="formSubmit(bugForm)">
->>>>>>> 1ed44610165f3ae920061b3c70eee874804154c2
 
 
       <div class="form-group col-md-4 mb-3">
         <label class="form-control-label">Title</label>
-<<<<<<< HEAD
-        <input class="form-control" type="text" formControlName="title" />
-        <div *ngIf="bugForm.get('title').invalid && (bugForm.get('title').touched || showValidations)" class="text-danger">
-          {{ model.title != null && model.title != '' ? 'Min Length 3 characters' : 'Field is required'}}
-=======
         <input formControlName="title" class="form-control" type="text"/>
         <div *ngIf="bugForm.get('title').invalid && (bugForm.get('title').touched || bugForm.get('title').dirty)" class="text-danger">
             {{titleFormControlErrorMessage}}
->>>>>>> 1ed44610165f3ae920061b3c70eee874804154c2
         </div>
       </div>
 
       <div class="form-group col-md-4 mb-3">
         <label class="form-control-label">Description</label>
-<<<<<<< HEAD
-        <input class="form-control" type="text"  formControlName="description"  />
-        <div *ngIf="bugForm.get('description').invalid && (bugForm.get('description').touched || showValidations)" class="text-danger">
-=======
         <input class="form-control" formControlName="description" type="text"/>
         <div *ngIf="bugForm.get('description').invalid && (bugForm.get('description').touched || bugForm.get('description').dirty)" class="text-danger">
->>>>>>> 1ed44610165f3ae920061b3c70eee874804154c2
           Field is required
         </div>
       </div>
@@ -36,21 +21,12 @@
     <div class="form-group col-md-4 mb-3" >
       <label class="form-control-label">Priority</label>
       <br/>
-<<<<<<< HEAD
-      <select class="form-control" formControlName="priority" >
-        <option [ngValue]="null">Select</option>
-=======
       <select formControlName="priority" class="form-control">
->>>>>>> 1ed44610165f3ae920061b3c70eee874804154c2
         <option *ngFor="let pr of priorities" [ngValue]="pr.id">
           {{pr.value}}
         </option>
       </select>
-<<<<<<< HEAD
-      <div *ngIf="bugForm.get('priority').invalid && (bugForm.get('priority').touched || showValidations)" class="text-danger">
-=======
       <div *ngIf="bugForm.get('priority').invalid && (bugForm.get('priority').touched || bugForm.get('priority').dirty)" class="text-danger">
->>>>>>> 1ed44610165f3ae920061b3c70eee874804154c2
           Field is required
         </div>
     </div>
@@ -58,22 +34,13 @@
     <div class="form-group col-md-4 mb-3" >
         <label class="form-control-label">Reporter</label>
         <br/>
-<<<<<<< HEAD
-        <select class="form-control" formControlName="reporter" >
-          <option [ngValue]="null">Select</option>
-=======
         <select formControlName="reporter" class="form-control">
           <option [ngValue]="">Select</option>
->>>>>>> 1ed44610165f3ae920061b3c70eee874804154c2
           <option *ngFor="let pr of reporters">
             {{pr}}
           </option>
         </select>
-<<<<<<< HEAD
-        <div *ngIf="bugForm.get('reporter').invalid && (bugForm.get('reporter').touched || showValidations)" class="text-danger">
-=======
         <div *ngIf="bugForm.get('reporter').invalid && (bugForm.get('reporter').touched || bugForm.get('reporter').dirty)" class="text-danger">
->>>>>>> 1ed44610165f3ae920061b3c70eee874804154c2
             Field is required
           </div>
       </div>
@@ -81,22 +48,13 @@
       <div class="form-group col-md-4 mb-3" >
           <label class="form-control-label">Status</label>
           <br/>
-<<<<<<< HEAD
-          <select  formControlName="status"  class="form-control">
-            <option [ngValue]="null">Select</option>
-=======
           <select formControlName="status" class="form-control">
             <option [ngValue]="">Select</option>
->>>>>>> 1ed44610165f3ae920061b3c70eee874804154c2
             <option *ngFor="let pr of statuses">
               {{pr}}
             </option>
           </select>
-<<<<<<< HEAD
-          <div *ngIf="bugForm.get('status').invalid" class="text-danger">
-=======
           <div *ngIf="bugForm.get('status').invalid && (bugForm.get('status').touched || bugForm.get('status').dirty)" class="text-danger">
->>>>>>> 1ed44610165f3ae920061b3c70eee874804154c2
               Field is required
             </div>
         </div>
