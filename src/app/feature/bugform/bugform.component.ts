@@ -26,7 +26,7 @@ export class BugformComponent implements OnInit {
     minlength: 'The minlength is 3 characters'
   };
 
-  constructor(private bugservice: BugserviceService, ) {}
+  constructor(private bugservice: BugserviceService ) {}
 
   ngOnInit() {
     this.model = new Bugdetails(null, null, null, null, null, null, null);
@@ -59,14 +59,13 @@ export class BugformComponent implements OnInit {
     });
   }
 
-  formSubmit (form: NgForm) {
-    console.log(form.value);
-    if (form.invalid) {
+  formSubmit ({value}: {value}) {
+    console.log(value);
+    if (this.bugForm.invalid) {
       this.showValidations = true;
       return;
     }
-    this.bugservice.createBug(form.value).subscribe();
-
+    this.bugservice.createBug(value).subscribe();
   }
 
 }
