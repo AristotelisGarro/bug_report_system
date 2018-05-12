@@ -1,19 +1,18 @@
-<form #form="ngForm" class="" (submit)="formSubmit(form)">
+<form #form="ngForm" class="" (submit)="formSubmit(form)" [formGroup]="bugForm">
 
 
       <div class="form-group col-md-4 mb-3">
         <label class="form-control-label">Title</label>
-        <input #title="ngModel" class="form-control" type="text" name="title"
-        [(ngModel)]="model.title" required minlength="3"/>
-        <div *ngIf="title.invalid && (title.touched || showValidations)" class="text-danger">
+        <input class="form-control" type="text" formControlName="title" />
+        <div *ngIf="bugForm.get('title').invalid && (bugForm.get('title').touched || showValidations)" class="text-danger">
           {{ model.title != null && model.title != '' ? 'Min Length 3 characters' : 'Field is required'}}
         </div>
       </div>
 
       <div class="form-group col-md-4 mb-3">
         <label class="form-control-label">Description</label>
-        <input class="form-control" #description="ngModel" [ngModel]="model.description" type="text" name="description" required />
-        <div *ngIf="description.invalid && (description.touched || showValidations)" class="text-danger">
+        <input class="form-control" type="text"  formControlName="description"  />
+        <div *ngIf="bugForm.get('description').invalid && (bugForm.get('description').touched || showValidations)" class="text-danger">
           Field is required
         </div>
       </div>
@@ -22,13 +21,13 @@
     <div class="form-group col-md-4 mb-3" >
       <label class="form-control-label">Priority</label>
       <br/>
-      <select #priority="ngModel" name="priority" [(ngModel)]="model.priority" class="form-control">
+      <select class="form-control" formControlName="priority" >
         <option [ngValue]="null">Select</option>
         <option *ngFor="let pr of priorities" [ngValue]="pr.id">
           {{pr.value}}
         </option>
       </select>
-      <div *ngIf="model.priority == null && (priority.touched || showValidations)" class="text-danger">
+      <div *ngIf="bugForm.get('priority').invalid && (bugForm.get('priority').touched || showValidations)" class="text-danger">
           Field is required
         </div>
     </div>
@@ -36,13 +35,13 @@
     <div class="form-group col-md-4 mb-3" >
         <label class="form-control-label">Reporter</label>
         <br/>
-        <select #reporter="ngModel" name="reporter" required [(ngModel)]="model.reporter" (ngModelChange)="propertyIsValid($event, 'reporter')" class="form-control">
+        <select class="form-control" formControlName="reporter" >
           <option [ngValue]="null">Select</option>
           <option *ngFor="let pr of reporters">
             {{pr}}
           </option>
         </select>
-        <div *ngIf="model.reporter == null && (reporter.touched || showValidations)" class="text-danger">
+        <div *ngIf="bugForm.get('reporter').invalid && (bugForm.get('reporter').touched || showValidations)" class="text-danger">
             Field is required
           </div>
       </div>
@@ -50,13 +49,13 @@
       <div class="form-group col-md-4 mb-3" >
           <label class="form-control-label">Status</label>
           <br/>
-          <select #status="ngModel" name="status" [(ngModel)]="model.status" (ngModelChange)="propertyIsValid($event, 'status')" [required]="statusRequired" class="form-control">
+          <select  formControlName="status"  class="form-control">
             <option [ngValue]="null">Select</option>
             <option *ngFor="let pr of statuses">
               {{pr}}
             </option>
           </select>
-          <div *ngIf="statusRequired && model.status == null" class="text-danger">
+          <div *ngIf="bugForm.get('status').invalid" class="text-danger">
               Field is required
             </div>
         </div>
