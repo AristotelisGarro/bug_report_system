@@ -1,4 +1,4 @@
-import { IBugdetails } from "../interfaces/bugdetails";
+import { IBugdetails } from '../interfaces/bugdetails';
 
 export class Bugdetails implements IBugdetails {
 

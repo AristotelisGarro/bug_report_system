@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IBugdetails } from '../interfaces/bugdetails';
-import { Bugdetails } from '../classes/bugdetails';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
-import { BugserviceService } from '../services/bugservice.service';
+import { IBugdetails } from '../../interfaces/bugdetails';
+import { BugserviceService } from '../../services/bugservice.service';
+import { Bugdetails } from '../../classes/bugdetails';
 
 @Component({
   selector: 'brs-bugform',

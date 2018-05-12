@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { BuglistComponent } from './buglist/buglist.component';
-import { BugformComponent } from './bugform/bugform.component';
+import { BuglistComponent } from './feature/buglist/buglist.component';
+import { BugformComponent } from './feature/bugform/bugform.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'bugs', pathMatch: 'full'},

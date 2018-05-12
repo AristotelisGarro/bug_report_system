@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IBugdetails } from '../interfaces/bugdetails';
-import { BugserviceService } from '../services/bugservice.service';
+import { IBugdetails } from '../../interfaces/bugdetails';
+import { BugserviceService } from '../../services/bugservice.service';
 
 @Component({
   selector: 'brs-buglist',
