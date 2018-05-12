@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IBugdetails } from '../interfaces/bugdetails';
 import { Bugdetails } from '../classes/bugdetails';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { BugserviceService } from '../services/bugservice.service';
 import { Router } from '@angular/router';
 
@@ -12,38 +12,52 @@ import { Router } from '@angular/router';
 })
 export class BugformComponent implements OnInit {
   model: IBugdetails;
-  statusRequired = false;
-  priorities = [{id: 1 , value: 'Minor'}, {id: 2 , value: 'Major'}, {id: 3 , value: 'Critical'}];
+  priorities = [{id: '', value: 'Select'}, {id: 1 , value: 'Minor'}, {id: 2 , value: 'Major'}, {id: 3 , value: 'Critical'}];
   reporters = ['QA', 'PO', 'DEV'];
   statuses = ['Ready for test', 'Done', 'Rejected'];
   showValidations = false;
 
   bugForm: FormGroup;
 
-  constructor(private bugservice: BugserviceService, private router: Router) {}
+  reporterFormControl = new FormControl('', Validators.required);
+  titleFormControl = new FormControl('', [Validators.required, Validators.minLength(3)]);
+  titleFormControlErrorMessage = '';
+  titleFormControlValidationMessages = {
+    required : 'The title is required',
+    minlength: 'The minlength is 3 characters'
+  };
+
+  constructor(private bugservice: BugserviceService, private router: Router ) {}
 
   ngOnInit() {
     this.model = new Bugdetails(null, null, null, null, null, null, null);
-
     this.bugForm = new FormGroup({
-      title: new FormControl(this.model.title, Validators.required),
-      description: new FormControl(this.model.description, Validators.required),
-      priority: new FormControl(this.model.priority, Validators.required),
-      reporter: new FormControl(this.model.reporter, Validators.required),
-      status: new FormControl(this.model.status)
+      title: this.titleFormControl,
+      description: new FormControl('', Validators.required),
+      priority: new FormControl('', Validators.required),
+      reporter: this.reporterFormControl,
+      status:  new FormControl()
     });
 
-    this.bugForm.get('reporter').valueChanges.subscribe(val => {
-      const statusFormControl = this.bugForm.controls.status;
+    this.titleFormControl.valueChanges.subscribe((value: string) => {
+      this.titleFormControlErrorMessage = '';
 
-      if (val === 'QA') {
+      if ((this.titleFormControl.touched || this.titleFormControl.dirty) && this.titleFormControl.errors) {
+        this.titleFormControlErrorMessage =
+        Object.keys(this.titleFormControl.errors)
+        .map(c => this.titleFormControlValidationMessages[c]).join(" ");
+      }
+    });
+
+    this.reporterFormControl.valueChanges.subscribe((value: string) => {
+      const statusFormControl = this.bugForm.get('status');
+      if (value === 'QA') {
         statusFormControl.setValidators(Validators.required);
       } else {
         statusFormControl.clearValidators();
       }
       statusFormControl.updateValueAndValidity();
     });
-
   }
 
   formSubmit ({value}: {value}) {
