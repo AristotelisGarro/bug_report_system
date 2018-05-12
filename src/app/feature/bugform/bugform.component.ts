@@ -3,6 +3,7 @@ import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { IBugdetails } from '../../interfaces/bugdetails';
 import { BugserviceService } from '../../services/bugservice.service';
 import { Bugdetails } from '../../classes/bugdetails';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'brs-bugform',
@@ -26,7 +27,7 @@ export class BugformComponent implements OnInit {
     minlength: 'The minlength is 3 characters'
   };
 
-  constructor(private bugservice: BugserviceService ) {}
+  constructor(private bugservice: BugserviceService, private routeservice: Router ) {}
 
   ngOnInit() {
     this.model = new Bugdetails(null, null, null, null, null, null, null);
@@ -66,6 +67,7 @@ export class BugformComponent implements OnInit {
       return;
     }
     this.bugservice.createBug(value).subscribe();
+    this.routeservice.navigate(['./bugs']);
   }
 
 }
