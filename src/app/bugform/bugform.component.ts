@@ -25,6 +25,8 @@ export class BugformComponent implements OnInit {
   propertyIsValid(value, property) {
     if (property === 'reporter' && value === 'QA') {
       this.statusRequired = true;
+    } else if (property === 'status' && value == null) {
+      this.statusRequired = true;
     } else {
       this.statusRequired = false;
     }

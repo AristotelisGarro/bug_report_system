@@ -22,7 +22,7 @@
     <div class="form-group col-md-4 mb-3" >
       <label class="form-control-label">Priority</label>
       <br/>
-      <select #priority="ngModel" name="priority" [(ngModel)]="model.priority" (ngModelChange)="propertyIsValid($event, 'priority')" class="form-control">
+      <select #priority="ngModel" name="priority" [(ngModel)]="model.priority" class="form-control">
         <option [ngValue]="null">Select</option>
         <option *ngFor="let pr of priorities" [ngValue]="pr.id">
           {{pr.value}}
