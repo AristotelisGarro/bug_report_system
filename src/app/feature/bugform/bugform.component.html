@@ -1,6 +1,6 @@
 <form [formGroup]="bugForm" class="form" (submit)="formSubmit(bugForm)">
 
-
+<fieldset class="fieldset"><legend>{{formStatus == 'create' ? 'New Bug': 'Edit Bug'}}</legend></fieldset>
       <div class="form-group col-md-4 mb-3">
         <label class="form-control-label">Title</label>
         <input formControlName="title" class="form-control" type="text"/>
@@ -35,7 +35,7 @@
         <label class="form-control-label">Reporter</label>
         <br/>
         <select formControlName="reporter" class="form-control">
-          <option [ngValue]="">Select</option>
+          <option [ngValue]="''">Select</option>
           <option *ngFor="let pr of reporters">
             {{pr}}
           </option>
@@ -49,8 +49,8 @@
           <label class="form-control-label">Status</label>
           <br/>
           <select formControlName="status" class="form-control">
-            <option [ngValue]="">Select</option>
-            <option *ngFor="let pr of statuses">
+            <option [ngValue]="''">Select</option>
+            <option *ngFor="let pr of statuses" [ngValue]="pr">
               {{pr}}
             </option>
           </select>

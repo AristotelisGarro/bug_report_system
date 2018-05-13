@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-body p-1">
-    <button type="button" class="btn btn-primary float-right" [routerLink]="'/bug'">Add</button>
+    <button type="button" class="btn btn-primary float-right" [routerLink]="'/bug/new'">Add</button>
   </div>
 </div>
 <table class="table table-bordered">
@@ -31,6 +31,7 @@
           <i class="fa" [ngClass]="asc == false ? 'fa-arrow-up' : 'fa-arrow-down'" [hidden]="sortedColumn!='status'"></i>
         </a>
       </th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -40,6 +41,7 @@
       <td>{{ bug.reporter }}</td>
       <td>{{ bug.createdAt | date:'d/M/yy, HH:mm' }}</td>
       <td>{{ bug.status || 'Unknown'}}</td>
+      <td><a class="btn btn-sm btn-outline-dark" [routerLink]="['../bug',bug.id]" role="button">Edit</a></td>
     </tr>
   </tbody>
 </table>

@@ -4,5 +4,5 @@ import { BugformComponent } from './feature/bugform/bugform.component';
 
 export const routes: Routes = [
   {path: 'bugs', component: BuglistComponent},
-  {path: 'bug', component: BugformComponent}
+  {path: 'bug/:id', component: BugformComponent}
    ];

@@ -19,7 +19,15 @@ export class BugserviceService {
     return this.http.get<Array<IBugdetails>>(this.ENDPOINT + 'bugs?sort=' + column + ',' + asc + '&page=' + page + '&size=' + size);
   }
 
+  getBugById(id: string): Observable<IBugdetails> {
+    return this.http.get<IBugdetails>(this.ENDPOINT + 'bugs/' + id);
+  }
+
   createBug(data: IBugdetails) {
     return this.http.post(this.ENDPOINT + 'bugs', data);
+  }
+
+  updateBug(data: IBugdetails) {
+    return this.http.put(this.ENDPOINT + 'bugs/' + data.id, data);
   }
 }
