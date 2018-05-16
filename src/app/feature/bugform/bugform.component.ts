@@ -22,7 +22,6 @@ export class BugformComponent implements OnInit {
   ];
   reporters = ['QA', 'PO', 'DEV'];
   statuses = ['Ready for test', 'Done', 'Rejected'];
-  showValidations = false;
 
   bugForm: FormGroup;
 
@@ -47,7 +46,9 @@ export class BugformComponent implements OnInit {
       description: new FormControl('', Validators.required),
       priority: new FormControl('', Validators.required),
       reporter: new FormControl('', Validators.required),
-      status: new FormControl('')
+      status: new FormControl(''),
+      comment: new FormControl(''),
+      commentReporter: new FormControl('')
     });
 
     this.route.params.subscribe(p => {
@@ -59,7 +60,9 @@ export class BugformComponent implements OnInit {
             description: data.description,
             priority: data.priority,
             reporter: data.reporter,
-            status: data.status ? data.status : 'Unknown'
+            status: data.status ? data.status : 'Unknown',
+            comment: '',
+            commentReporter: ''
           });
           this.model = data;
         });
@@ -70,7 +73,9 @@ export class BugformComponent implements OnInit {
           description: '',
           priority: '',
           reporter: '',
-          status: ''
+          status: '',
+          comment: '',
+          commentReporter: ''
         });
       }
     });
@@ -104,18 +109,21 @@ export class BugformComponent implements OnInit {
   formSubmit({ value }: { value }) {
     console.log(value);
     if (this.bugForm.invalid) {
-      this.showValidations = true;
       return;
     }
     if (this.formStatus === 'create') {
-    this.bugservice.createBug(value).subscribe();
+      this.bugservice.createBug(value).subscribe();
     } else {
       this.model.description = value.description;
       this.model.title = value.title;
       this.model.priority = value.priority;
       this.model.reporter = value.reporter;
       this.model.status = value.status;
-    this.bugservice.updateBug(this.model).subscribe();
+
+      this.model.comment = value.comment;
+      this.model.commentReporter = value.comment;
+
+      this.bugservice.updateBug(this.model).subscribe();
     }
     this.routeservice.navigate(['./bugs']);
   }

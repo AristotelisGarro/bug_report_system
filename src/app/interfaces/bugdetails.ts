@@ -6,4 +6,6 @@ export interface IBugdetails {
   createdAt: string;
   status?: string;
   id: string;
+  comment?: string;
+  commentReporter?: string;
 }

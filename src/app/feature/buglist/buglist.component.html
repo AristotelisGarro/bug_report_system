@@ -37,7 +37,7 @@
   <tbody>
     <tr *ngFor="let bug of bugs">
       <td>{{ bug.title }}</td>
-      <td>{{ bug.priority }}</td>
+      <td>{{displayPriority(bug.priority)}}</td>
       <td>{{ bug.reporter }}</td>
       <td>{{ bug.createdAt | date:'d/M/yy, HH:mm' }}</td>
       <td>{{ bug.status || 'Unknown'}}</td>

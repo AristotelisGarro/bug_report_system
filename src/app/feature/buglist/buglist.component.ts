@@ -27,6 +27,19 @@ export class BuglistComponent implements OnInit {
     });
   }
 
+  displayPriority(priority: number): string {
+    switch (priority) {
+      case 1:
+        return 'Minor';
+      case 2:
+        return 'Major';
+      case 3:
+        return 'Critical';
+      default:
+        return '';
+    }
+  }
+
   getBugs() {
     const direction = this.asc ? 'asc' : 'desc';
     this.bugService.getBugsSorted(this.sortedColumn, direction, this.page, this.pagesize).subscribe((data) => {
