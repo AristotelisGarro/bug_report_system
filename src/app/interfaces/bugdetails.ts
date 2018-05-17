@@ -1,3 +1,5 @@
+import { IBugcomments } from "./bugcomments";
+
 export interface IBugdetails {
   title: string;
   description: string;
@@ -6,6 +8,5 @@ export interface IBugdetails {
   createdAt: string;
   status?: string;
   id: string;
-  comment?: string;
-  commentReporter?: string;
+  comments?: IBugcomments[];
 }

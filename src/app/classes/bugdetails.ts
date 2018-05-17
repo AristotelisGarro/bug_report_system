@@ -1,4 +1,5 @@
 import { IBugdetails } from '../interfaces/bugdetails';
+import { IBugcomments } from '../interfaces/bugcomments';
 
 export class Bugdetails implements IBugdetails {
 
@@ -10,7 +11,8 @@ export class Bugdetails implements IBugdetails {
     public id: string,
     public createdAt: string,
     public reporter?: string,
-    public status?: string
+    public status?: string,
+    public comments?: IBugcomments[]
   ) {
     status = status || 'Unknown';
   }

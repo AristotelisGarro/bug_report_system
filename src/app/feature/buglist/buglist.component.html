@@ -31,6 +31,7 @@
           <i class="fa" [ngClass]="asc == false ? 'fa-arrow-up' : 'fa-arrow-down'" [hidden]="sortedColumn!='status'"></i>
         </a>
       </th>
+      <th>Comments</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -41,6 +42,10 @@
       <td>{{ bug.reporter }}</td>
       <td>{{ bug.createdAt | date:'d/M/yy, HH:mm' }}</td>
       <td>{{ bug.status || 'Unknown'}}</td>
+      <td><ul>
+          <li *ngFor="let comment of bug.comments">{{comment.reporter}} - {{comment.description}}</li>
+        </ul>
+      </td>
       <td><a class="btn btn-sm btn-outline-dark" [routerLink]="['../bug',bug.id]" role="button">Edit</a></td>
     </tr>
   </tbody>

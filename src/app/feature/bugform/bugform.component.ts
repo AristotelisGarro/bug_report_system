@@ -46,14 +46,14 @@ export class BugformComponent implements OnInit {
       description: new FormControl('', Validators.required),
       priority: new FormControl('', Validators.required),
       reporter: new FormControl('', Validators.required),
-      status: new FormControl(''),
-      comment: new FormControl(''),
-      commentReporter: new FormControl('')
+      status: new FormControl('')
     });
 
     this.route.params.subscribe(p => {
       if (p.id !== 'new') {
         this.formStatus = 'edit';
+        this.bugForm.addControl('comment', new FormControl(''));
+        this.bugForm.addControl('commentReporter', new FormControl(''));
         this.bugservice.getBugById(p.id).subscribe(data => {
           this.bugForm.setValue({
             title: data.title,
@@ -73,9 +73,7 @@ export class BugformComponent implements OnInit {
           description: '',
           priority: '',
           reporter: '',
-          status: '',
-          comment: '',
-          commentReporter: ''
+          status: ''
         });
       }
     });
@@ -119,9 +117,9 @@ export class BugformComponent implements OnInit {
       this.model.priority = value.priority;
       this.model.reporter = value.reporter;
       this.model.status = value.status;
-
-      this.model.comment = value.comment;
-      this.model.commentReporter = value.comment;
+      this.model.comments.push({
+        reporter: value.commentReporter,
+        description: value.comment});
 
       this.bugservice.updateBug(this.model).subscribe();
     }
