@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { IBugdetails } from '../../interfaces/bugdetails';
+import { IBugcomments } from '../../interfaces/bugcomments';
 import { BugserviceService } from '../../services/bugservice.service';
 import { Bugdetails } from '../../classes/bugdetails';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -34,35 +35,38 @@ export class BugformComponent implements OnInit {
   constructor(
     private bugservice: BugserviceService,
     private routeservice: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private fb: FormBuilder
   ) {  }
 
   ngOnInit() {
-    this.bugForm = new FormGroup({
-      title: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3)
-      ]),
-      description: new FormControl('', Validators.required),
-      priority: new FormControl('', Validators.required),
-      reporter: new FormControl('', Validators.required),
-      status: new FormControl('')
+    this.bugForm = this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', Validators.required],
+      priority: ['', Validators.required],
+      reporter: ['', Validators.required],
+      status: [''],
+      comments: this.fb.array([])
     });
 
     this.route.params.subscribe(p => {
       if (p.id !== 'new') {
         this.formStatus = 'edit';
-        this.bugForm.addControl('comment', new FormControl(''));
-        this.bugForm.addControl('commentReporter', new FormControl(''));
         this.bugservice.getBugById(p.id).subscribe(data => {
+
+          const controlComments = <FormArray>this.bugForm.controls['comments'];
+          data.comments.forEach((item) => (controlComments.push(this.fb.group({
+            description: [item.description],
+            reporter: [item.reporter]
+          }))));
+
           this.bugForm.setValue({
             title: data.title,
             description: data.description,
             priority: data.priority,
             reporter: data.reporter,
             status: data.status ? data.status : 'Unknown',
-            comment: '',
-            commentReporter: ''
+            comments: controlComments.value
           });
           this.model = data;
         });
@@ -73,7 +77,8 @@ export class BugformComponent implements OnInit {
           description: '',
           priority: '',
           reporter: '',
-          status: ''
+          status: '',
+          comments: []
         });
       }
     });
@@ -117,12 +122,18 @@ export class BugformComponent implements OnInit {
       this.model.priority = value.priority;
       this.model.reporter = value.reporter;
       this.model.status = value.status;
-      this.model.comments.push({
-        reporter: value.commentReporter,
-        description: value.comment});
+      this.model.comments = value.comments;
 
       this.bugservice.updateBug(this.model).subscribe();
     }
     this.routeservice.navigate(['./bugs']);
+  }
+
+  addComment() {
+    const control = <FormArray>this.bugForm.controls['comments'];
+    control.push(this.fb.group({
+      description: [''],
+      reporter: ['']
+    }));
   }
 }
