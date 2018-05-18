@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm, FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { IBugdetails } from '../../interfaces/bugdetails';
 import { IBugcomments } from '../../interfaces/bugcomments';
@@ -50,11 +50,10 @@ export class BugformComponent implements OnInit {
     });
 
     this.route.params.subscribe(p => {
+      const controlComments = <FormArray>this.bugForm.controls['comments'];
       if (p.id !== 'new') {
         this.formStatus = 'edit';
         this.bugservice.getBugById(p.id).subscribe(data => {
-
-          const controlComments = <FormArray>this.bugForm.controls['comments'];
           data.comments.forEach((item) => (controlComments.push(this.fb.group({
             description: [item.description],
             reporter: [item.reporter]
@@ -72,6 +71,7 @@ export class BugformComponent implements OnInit {
         });
       } else {
         this.formStatus = 'create';
+        controlComments.controls.length = 0;
         this.bugForm.setValue({
           title: '',
           description: '',
