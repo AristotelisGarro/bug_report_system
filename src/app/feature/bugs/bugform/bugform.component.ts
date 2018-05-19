@@ -126,7 +126,7 @@ export class BugformComponent implements OnInit {
 
       this.bugservice.updateBug(this.model).subscribe();
     }
-    this.routeservice.navigate(['./bugs']);
+   this.returnToList();
   }
 
   addComment() {
@@ -140,5 +140,9 @@ export class BugformComponent implements OnInit {
   removeComment(index: number) {
     const control = <FormArray>this.bugForm.controls['comments'];
     control.removeAt(index);
+  }
+
+  returnToList() {
+    this.routeservice.navigate(['./bugs']);
   }
 }
