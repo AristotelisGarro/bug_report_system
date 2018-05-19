@@ -55,8 +55,8 @@ export class BugformComponent implements OnInit {
         this.formStatus = 'edit';
         this.bugservice.getBugById(p.id).subscribe(data => {
           data.comments.forEach((item) => (controlComments.push(this.fb.group({
-            description: [item.description],
-            reporter: [item.reporter]
+            description: [item.description, Validators.required],
+            reporter: [item.reporter, Validators.required]
           }))));
 
           this.bugForm.setValue({
@@ -132,8 +132,13 @@ export class BugformComponent implements OnInit {
   addComment() {
     const control = <FormArray>this.bugForm.controls['comments'];
     control.push(this.fb.group({
-      description: [''],
-      reporter: ['']
+      description: ['', Validators.required],
+      reporter: ['', Validators.required]
     }));
+  }
+
+  removeComment(index: number) {
+    const control = <FormArray>this.bugForm.controls['comments'];
+    control.removeAt(index);
   }
 }

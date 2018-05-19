@@ -62,18 +62,31 @@
           <hr>
           <legend>Comments</legend>
             <div formArrayName="comments">
-                <div *ngFor="let cm of bugForm.controls.comments.controls; let i = index" style="margin-bottom: 15px;border-bottom:1px solid silver;padding-bottom: 5px;">
-                  <div [formGroupName]="i" class="col-sm-12">
-                        <textarea formControlName="description" class="col-sm-6 form-control"></textarea>
-                        <br>
-                        <label class="form-control-label" class="wt-auto">Reported from:</label>
-                        <input formControlName="reporter" class="col-sm-3 form-control" type="text"/>
+                <div *ngFor="let cm of bugForm.controls.comments.controls; let i = index" style="margin-bottom: 15px;padding-bottom: 5px;">
+                  <div [formGroupName]="i" class="form-inline">
+                      <div class="form-group mb-6 col-8">
+                        <textarea formControlName="description" class="form-control col-12" placeholder="Comment..."></textarea>
+                        <div *ngIf="cm.controls.description.invalid && (cm.controls.description.touched || cm.controls.description.dirty)" class="text-danger">
+                            Field is required
+                          </div>
+                      </div>
+                      <div class="form-group mb-6 col-3">
+                        <label>Reported from:</label>
+                        <input formControlName="reporter" class="form-control" type="text" placeholder="Reported from..."/>
+                        <div *ngIf="cm.controls.reporter.invalid && (cm.controls.reporter.touched || cm.controls.reporter.dirty)" class="text-danger">
+                            Field is required
+                          </div>
+                      </div>
+                      <div class="form-group mb-6 col-1">
+                          <button class="btn btn-danger btn-sm" (click)="removeComment(i)" type="button">x</button>
+                        </div>
                     </div>
                   </div>
               </div>
-              <div class="float-right">
+              <div class="col-12 text-center">
                   <button class="btn btn-default" (click)="addComment()" type="button">Add New Comment</button>
               </div>
+              <hr>
         </div>
     <button [disabled]="!bugForm.valid" class="btn btn-primary ml-3 mt-3" type="submit">Submit</button>
   </form>

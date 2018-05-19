@@ -42,6 +42,19 @@ export class BuglistComponent implements OnInit {
     }
   }
 
+  priorityClass(priority: number): string {
+    switch (priority) {
+      case 1:
+        return 'badge-info';
+      case 2:
+        return 'badge-warning';
+      case 3:
+        return 'badge-danger';
+      default:
+        return '';
+    }
+  }
+
   getBugs() {
     const direction = this.asc ? 'asc' : 'desc';
     this.bugService.getBugsSorted(this.sortedColumn, direction, this.page, this.pagesize).subscribe((data) => {
