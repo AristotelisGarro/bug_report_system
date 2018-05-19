@@ -59,17 +59,20 @@
             </div>
         </div>
         <div *ngIf="formStatus === 'edit'">
-            <div class="float-right">
-                <button class="btn btn-primary" (click)="addComment()" type="button">Add Comment</button>
-            </div>
+          <hr>
+          <legend>Comments</legend>
             <div formArrayName="comments">
-                <div *ngFor="let cm of bugForm.get('comments').controls; let i = index">
+                <div *ngFor="let cm of bugForm.controls.comments.controls; let i = index" style="margin-bottom: 15px;border-bottom:1px solid silver;padding-bottom: 5px;">
                   <div [formGroupName]="i" class="col-sm-12">
-                        <textarea formControlName="description" class="col-sm-6"></textarea>
+                        <textarea formControlName="description" class="col-sm-6 form-control"></textarea>
+                        <br>
                         <label class="form-control-label" class="wt-auto">Reported from:</label>
-                        <input formControlName="reporter" class="col-sm-3" type="text"/>
+                        <input formControlName="reporter" class="col-sm-3 form-control" type="text"/>
                     </div>
                   </div>
+              </div>
+              <div class="float-right">
+                  <button class="btn btn-default" (click)="addComment()" type="button">Add New Comment</button>
               </div>
         </div>
     <button [disabled]="!bugForm.valid" class="btn btn-primary ml-3 mt-3" type="submit">Submit</button>
