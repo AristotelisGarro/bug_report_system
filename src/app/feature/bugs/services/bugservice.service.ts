@@ -15,6 +15,11 @@ export class BugserviceService {
     return this.http.get<Array<IBugdetails>>(this.ENDPOINT + 'bugs');
   }
 
+  getTotalBugs(): Observable<any> {
+    return this.getBugsSorted('title', 'asc', 0, 100);
+    // return this.http.get<any>(this.ENDPOINT + 'bugs/total/bugs');
+  }
+
   getBugsSorted(column: string, asc: string, page: number, size: number): Observable<Array<IBugdetails>> {
     return this.http.get<Array<IBugdetails>>(this.ENDPOINT + 'bugs?sort=' + column + ',' + asc + '&page=' + page + '&size=' + size);
   }

@@ -21,8 +21,9 @@ export class BuglistComponent implements OnInit {
   constructor(private bugService: BugserviceService) { }
 
   ngOnInit() {
-    this.bugService.getBugs().subscribe((data) => {
+    this.bugService.getTotalBugs().subscribe((data) => {
       this.totalBugs = data.length;
+      // this.totalBugs = data.total;
       this.getBugs();
       console.table(this.bugs);
     });
