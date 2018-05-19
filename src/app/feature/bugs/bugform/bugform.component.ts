@@ -1,5 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgForm, FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
+import {
+  NgForm,
+  FormGroup,
+  FormControl,
+  Validators,
+  FormArray,
+  FormBuilder
+} from '@angular/forms';
 import { IBugdetails } from '../interfaces/bugdetails';
 import { IBugcomments } from '../interfaces/bugcomments';
 import { BugserviceService } from '../services/bugservice.service';
@@ -37,7 +44,7 @@ export class BugformComponent implements OnInit {
     private routeservice: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder
-  ) {  }
+  ) {}
 
   ngOnInit() {
     this.bugForm = this.fb.group({
@@ -54,10 +61,14 @@ export class BugformComponent implements OnInit {
       if (p.id !== 'new') {
         this.formStatus = 'edit';
         this.bugservice.getBugById(p.id).subscribe(data => {
-          data.comments.forEach((item) => (controlComments.push(this.fb.group({
-            description: [item.description, Validators.required],
-            reporter: [item.reporter, Validators.required]
-          }))));
+          data.comments.forEach(item =>
+            controlComments.push(
+              this.fb.group({
+                description: [item.description, Validators.required],
+                reporter: [item.reporter, Validators.required]
+              })
+            )
+          );
 
           this.bugForm.setValue({
             title: data.title,
@@ -87,7 +98,8 @@ export class BugformComponent implements OnInit {
       this.titleFormControlErrorMessage = '';
 
       if (
-        (this.bugForm.get('title').touched || this.bugForm.get('title').dirty) &&
+        (this.bugForm.get('title').touched ||
+          this.bugForm.get('title').dirty) &&
         this.bugForm.get('title').errors
       ) {
         this.titleFormControlErrorMessage = Object.keys(
@@ -126,15 +138,17 @@ export class BugformComponent implements OnInit {
 
       this.bugservice.updateBug(this.model).subscribe();
     }
-   this.returnToList();
+    this.returnToList();
   }
 
   addComment() {
     const control = <FormArray>this.bugForm.controls['comments'];
-    control.push(this.fb.group({
-      description: ['', Validators.required],
-      reporter: ['', Validators.required]
-    }));
+    control.push(
+      this.fb.group({
+        description: ['', Validators.required],
+        reporter: ['', Validators.required]
+      })
+    );
   }
 
   removeComment(index: number) {

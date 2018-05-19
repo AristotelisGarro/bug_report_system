@@ -1,99 +1,107 @@
 <form [formGroup]="bugForm" class="form" (submit)="formSubmit(bugForm)">
+  <div class="row">
+    <div class="col-4">
+      <fieldset class="fieldset">
+        <legend>{{formStatus == 'create' ? 'New Bug': 'Edit Bug'}}</legend>
+      </fieldset>
+      <div class="form-group mb-3">
+        <label class="form-control-label">Title</label>
+        <input formControlName="title" class="form-control" type="text" />
+        <div *ngIf="bugForm.get('title').invalid && (bugForm.get('title').touched || bugForm.get('title').dirty)" class="text-danger">
+          {{titleFormControlErrorMessage}}
+        </div>
+      </div>
 
-  <fieldset class="fieldset">
-    <legend>{{formStatus == 'create' ? 'New Bug': 'Edit Bug'}}</legend>
-  </fieldset>
-  <div class="form-group col-md-4 mb-3">
-    <label class="form-control-label">Title</label>
-    <input formControlName="title" class="form-control" type="text" />
-    <div *ngIf="bugForm.get('title').invalid && (bugForm.get('title').touched || bugForm.get('title').dirty)" class="text-danger">
-      {{titleFormControlErrorMessage}}
-    </div>
-  </div>
-
-  <div class="form-group col-md-4 mb-3">
-    <label class="form-control-label">Description</label>
-    <input class="form-control" formControlName="description" type="text" />
-    <div *ngIf="bugForm.get('description').invalid && (bugForm.get('description').touched || bugForm.get('description').dirty)"
-      class="text-danger">
-      Field is required
-    </div>
-  </div>
+      <div class="form-group  mb-3">
+        <label class="form-control-label">Description</label>
+        <input class="form-control" formControlName="description" type="text" />
+        <div *ngIf="bugForm.get('description').invalid && (bugForm.get('description').touched || bugForm.get('description').dirty)"
+          class="text-danger">
+          Field is required
+        </div>
+      </div>
 
 
-  <div class="form-group col-md-4 mb-3">
-    <label class="form-control-label">Priority</label>
-    <br/>
-    <select formControlName="priority" class="form-control">
-      <option *ngFor="let pr of priorities" [ngValue]="pr.id">
-        {{pr.value}}
-      </option>
-    </select>
-    <div *ngIf="bugForm.get('priority').invalid && (bugForm.get('priority').touched || bugForm.get('priority').dirty)" class="text-danger">
-      Field is required
-    </div>
-  </div>
+      <div class="form-group  mb-3">
+        <label class="form-control-label">Priority</label>
+        <br/>
+        <select formControlName="priority" class="form-control">
+          <option *ngFor="let pr of priorities" [ngValue]="pr.id">
+            {{pr.value}}
+          </option>
+        </select>
+        <div *ngIf="bugForm.get('priority').invalid && (bugForm.get('priority').touched || bugForm.get('priority').dirty)" class="text-danger">
+          Field is required
+        </div>
+      </div>
 
-  <div class="form-group col-md-4 mb-3">
-    <label class="form-control-label">Reporter</label>
-    <br/>
-    <select formControlName="reporter" class="form-control">
-      <option [ngValue]="''">Select</option>
-      <option *ngFor="let pr of reporters">
-        {{pr}}
-      </option>
-    </select>
-    <div *ngIf="bugForm.get('reporter').invalid && (bugForm.get('reporter').touched || bugForm.get('reporter').dirty)" class="text-danger">
-      Field is required
-    </div>
-  </div>
+      <div class="form-group  mb-3">
+        <label class="form-control-label">Reporter</label>
+        <br/>
+        <select formControlName="reporter" class="form-control">
+          <option [ngValue]="''">Select</option>
+          <option *ngFor="let pr of reporters">
+            {{pr}}
+          </option>
+        </select>
+        <div *ngIf="bugForm.get('reporter').invalid && (bugForm.get('reporter').touched || bugForm.get('reporter').dirty)" class="text-danger">
+          Field is required
+        </div>
+      </div>
 
-  <div class="form-group col-md-4 mb-3">
-    <label class="form-control-label">Status</label>
-    <br/>
-    <select formControlName="status" class="form-control">
-      <option [ngValue]="''">Select</option>
-      <option *ngFor="let pr of statuses" [ngValue]="pr">
-        {{pr}}
-      </option>
-    </select>
-    <div *ngIf="bugForm.get('status').invalid && (bugForm.get('status').touched || bugForm.get('status').dirty)" class="text-danger">
-      Field is required
-    </div>
-  </div>
-  <div *ngIf="formStatus === 'edit'">
-    <hr>
-    <legend>Comments</legend>
-    <div formArrayName="comments">
-      <div *ngFor="let cm of bugForm.controls.comments.controls; let i = index" style="margin-bottom: 15px;padding-bottom: 5px;">
-        <div [formGroupName]="i" class="form-inline">
-          <div class="form-group mb-6 col-8">
-            <textarea formControlName="description" class="form-control col-12" placeholder="Comment..."></textarea>
-            <div *ngIf="cm.controls.description.invalid && (cm.controls.description.touched || cm.controls.description.dirty)" class="text-danger">
-              Field is required
-            </div>
-          </div>
-          <div class="form-group mb-6 col-3">
-            <label>Reported from:</label>
-            <input formControlName="reporter" class="form-control" type="text" placeholder="Reported from..." />
-            <div *ngIf="cm.controls.reporter.invalid && (cm.controls.reporter.touched || cm.controls.reporter.dirty)" class="text-danger">
-              Field is required
-            </div>
-          </div>
-          <div class="form-group mb-6 col-1">
-            <button class="btn btn-danger btn-sm" (click)="removeComment(i)" type="button">x</button>
-          </div>
+      <div class="form-group mb-3">
+        <label class="form-control-label">Status</label>
+        <br/>
+        <select formControlName="status" class="form-control">
+          <option [ngValue]="''">Select</option>
+          <option *ngFor="let pr of statuses" [ngValue]="pr">
+            {{pr}}
+          </option>
+        </select>
+        <div *ngIf="bugForm.get('status').invalid && (bugForm.get('status').touched || bugForm.get('status').dirty)" class="text-danger">
+          Field is required
         </div>
       </div>
     </div>
-    <div class="col-12 text-center">
-      <button class="btn btn-default" (click)="addComment()" type="button">Add New Comment</button>
+    <div class="col-8">
+      <div *ngIf="formStatus === 'edit'">
+        <hr>
+        <legend>Comments</legend>
+        <div formArrayName="comments">
+          <div *ngFor="let cm of bugForm.controls.comments.controls; let i = index" style="margin-bottom: 15px;padding-bottom: 5px;">
+            <div [formGroupName]="i" class="form-inline">
+              <div class="form-group mb-6 col-6">
+                <textarea formControlName="description" class="form-control col-12" placeholder="Comment..."></textarea>
+                <div *ngIf="cm.controls.description.invalid && (cm.controls.description.touched || cm.controls.description.dirty)" class="text-danger">
+                  Field is required
+                </div>
+              </div>
+              <div class="form-group mb-6 col-5">
+                <label>Reported from:</label>
+                <input formControlName="reporter" class="form-control col-12" type="text" placeholder="Reported from..." />
+                <div *ngIf="cm.controls.reporter.invalid && (cm.controls.reporter.touched || cm.controls.reporter.dirty)" class="text-danger">
+                  Field is required
+                </div>
+              </div>
+              <div class="form-group mb-6 col-1">
+                <button class="btn btn-danger btn-sm" (click)="removeComment(i)" type="button">x</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 text-center">
+          <button class="btn btn-default" (click)="addComment()" type="button">Add New Comment</button>
+        </div>
+        <hr>
+      </div>
     </div>
-    <hr>
   </div>
+
+
+
   <div class="row">
     <div class="col-12 text-right mt-3">
-      <button class="btn btn-default mr-3" type="reset" >Clear</button>
+      <button class="btn btn-default mr-3" type="reset">Clear</button>
       <button [disabled]="!bugForm.valid" class="btn btn-primary btn-lg" type="submit">Submit</button>
     </div>
   </div>
