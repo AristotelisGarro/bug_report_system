@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm, FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
-import { IBugdetails } from '../../interfaces/bugdetails';
-import { IBugcomments } from '../../interfaces/bugcomments';
-import { BugserviceService } from '../../services/bugservice.service';
-import { Bugdetails } from '../../classes/bugdetails';
+import { IBugdetails } from '../interfaces/bugdetails';
+import { IBugcomments } from '../interfaces/bugcomments';
+import { BugserviceService } from '../services/bugservice.service';
+import { Bugdetails } from '../classes/bugdetails';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({

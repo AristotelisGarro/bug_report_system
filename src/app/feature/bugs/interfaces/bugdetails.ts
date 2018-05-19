@@ -1,4 +1,4 @@
-import { IBugcomments } from "./bugcomments";
+import { IBugcomments } from './bugcomments';
 
 export interface IBugdetails {
   title: string;

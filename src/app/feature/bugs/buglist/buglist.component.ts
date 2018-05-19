@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IBugdetails } from '../../interfaces/bugdetails';
-import { BugserviceService } from '../../services/bugservice.service';
+import { IBugdetails } from '../interfaces/bugdetails';
+import { BugserviceService } from '../services/bugservice.service';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'brs-buglist',
   templateUrl: './buglist.component.html',
   styleUrls: ['./buglist.component.scss']

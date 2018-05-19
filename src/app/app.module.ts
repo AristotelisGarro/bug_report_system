@@ -4,12 +4,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
-import { BugserviceService } from './services/bugservice.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
-import { routes } from './routes';
 import { CoreModule } from './core/core.module';
-import { FeatureModule } from './feature/feature.module';
+import { BugsModule } from './feature/bugs/bugs.module';
 
 const rootRoute: Routes = [
   {path: '', redirectTo: 'bugs', pathMatch: 'full'}
@@ -23,10 +21,10 @@ const rootRoute: Routes = [
     BrowserModule,
     HttpClientModule,
     CoreModule,
-    FeatureModule,
+    BugsModule,
     RouterModule.forRoot(rootRoute),
   ],
-  providers: [BugserviceService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
