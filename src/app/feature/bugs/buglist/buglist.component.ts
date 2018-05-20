@@ -26,7 +26,6 @@ export class BuglistComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.filters = new AdvancedSearch();
-    this.totalBugs = 1;
     this.getBugs();
   }
 
