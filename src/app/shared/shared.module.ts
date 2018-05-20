@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { DirtyBugFormGuard } from './guards/dirtyform.guard';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     CommonModule,
     ReactiveFormsModule,
     FormsModule
-  ]
+  ],
+  providers: [DirtyBugFormGuard]
 })
 export class SharedModule { }
