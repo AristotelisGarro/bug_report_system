@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IBugdetails } from '../interfaces/bugdetails';
 import { BugserviceService } from '../services/bugservice.service';
+import { AdvancedSearch } from '../classes/advanced-search.model';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -17,16 +18,14 @@ export class BuglistComponent implements OnInit {
   totalpages = 1;
   totalpagesArray = [0];
   totalBugs: number;
+  filters: AdvancedSearch;
 
   constructor(private bugService: BugserviceService) { }
 
   ngOnInit() {
-    this.bugService.getTotalBugs().subscribe((data) => {
-      this.totalBugs = data.length;
-      // this.totalBugs = data.total;
-      this.getBugs();
-      console.table(this.bugs);
-    });
+    this.filters = new AdvancedSearch();
+    this.totalBugs = 1;
+    this.getBugs();
   }
 
   displayPriority(priority: number): string {
@@ -57,8 +56,8 @@ export class BuglistComponent implements OnInit {
 
   getBugs() {
     const direction = this.asc ? 'asc' : 'desc';
-    this.bugService.getBugsSorted(this.sortedColumn, direction, this.page, this.pagesize).subscribe((data) => {
-      this.bugs = data;
+    this.bugService.getBugsSorted(this.sortedColumn, direction, this.page, this.pagesize, this.filters).subscribe((data) => {
+      this.bugs = data.body;
       this.totalpages = Math.ceil( this.totalBugs / this.pagesize );
       this.totalpagesArray = Array(this.totalpages || 1).fill(this.totalpages || 1).map((x, i) => i);
     });
@@ -68,6 +67,11 @@ export class BuglistComponent implements OnInit {
     this.sortedColumn = column;
     this.getBugs();
     this.asc = !this.asc;
+  }
+
+  onSearch(data: AdvancedSearch) {
+    this.filters = data;
+    this.getBugs();
   }
 
 }

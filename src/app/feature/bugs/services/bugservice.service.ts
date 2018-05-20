@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operator/map';
 import { Bugdetails } from '../classes/bugdetails';
 import { IBugdetails } from '../interfaces/bugdetails';
+import { AdvancedSearch } from '../classes/advanced-search.model';
 
 @Injectable()
 export class BugserviceService {
@@ -15,13 +16,11 @@ export class BugserviceService {
     return this.http.get<Array<IBugdetails>>(this.ENDPOINT + 'bugs');
   }
 
-  getTotalBugs(): Observable<any> {
-    return this.getBugsSorted('title', 'asc', 0, 100);
-    // return this.http.get<any>(this.ENDPOINT + 'bugs/total/bugs');
-  }
-
-  getBugsSorted(column: string, asc: string, page: number, size: number): Observable<Array<IBugdetails>> {
-    return this.http.get<Array<IBugdetails>>(this.ENDPOINT + 'bugs?sort=' + column + ',' + asc + '&page=' + page + '&size=' + size);
+  getBugsSorted(column: string, asc: string, page: number, size: number, filters: AdvancedSearch)
+  : Observable<HttpResponse<any>> {
+    return this.http.get<any>(this.ENDPOINT + 'bugs?sort=' + column + ',' + asc + '&page=' + page + '&size=' +
+     size + '&title=' + filters.title + '&priority=' + filters.priority + '&status=' + filters.status + '&reporter=' + filters.reporter,
+    {observe: 'response'});
   }
 
   getBugById(id: string): Observable<IBugdetails> {

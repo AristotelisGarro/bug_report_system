@@ -1,6 +1,9 @@
 <div class="card">
   <div class="card-body p-1">
-    <button type="button" class="btn btn-primary float-right" [routerLink]="'/bug/new'">Add</button>
+    <div class="d-flex  justify-content-between">
+    <brs-advanced-search (searched)="onSearch($event)"></brs-advanced-search>
+    <button type="button" class="btn btn-primary" [routerLink]="'/bug/new'">Create New Bug</button>
+  </div>
   </div>
 </div>
 <table class="table table-bordered">

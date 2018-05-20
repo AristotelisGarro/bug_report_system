@@ -1,0 +1,30 @@
+<form class="form-inline" #searchForm="ngForm" (ngSubmit)="search(searchForm)">
+  <label class="sr-only" for="inlineFormInputName2">Title</label>
+  <input type="text" [(ngModel)]="model.title" name="title" class="form-control  mr-sm-2" id="inlineFormInputName2" placeholder="Title">
+
+  <label class="sr-only">Priority</label>
+  <select [(ngModel)]="model.priority" class="form-control  mr-sm-2" name="priority">
+    <option *ngFor="let pr of priorities" [ngValue]="pr.id">
+      {{pr.value}}
+    </option>
+  </select>
+
+  <label class="sr-only">Reporter</label>
+  <select [(ngModel)]="model.reporter" class="form-control  mr-sm-2" name="reporter">
+    <option [ngValue]="''">Reporters</option>
+    <option *ngFor="let pr of reporters">
+      {{pr}}
+    </option>
+  </select>
+
+  <label class="sr-only">Status</label>
+  <select [(ngModel)]="model.status" class="form-control  mr-sm-2" name="status">
+    <option [ngValue]="''">Statuses</option>
+    <option *ngFor="let pr of statuses" [ngValue]="pr">
+      {{pr}}
+    </option>
+  </select>
+
+  <button type="submit" class="btn btn-success ">Search</button>
+  <button type="button" class="btn btn-outline-secondary ml-2" (click)="clearFilters(searchForm)">Clear</button>
+</form>

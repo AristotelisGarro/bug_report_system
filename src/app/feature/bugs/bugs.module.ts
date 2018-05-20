@@ -6,6 +6,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { routes } from './routes';
 import { BugserviceService } from './services/bugservice.service';
+import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
 
 @NgModule({
   imports: [
@@ -15,8 +16,9 @@ import { BugserviceService } from './services/bugservice.service';
   ],
   declarations: [
     BugformComponent,
-    BuglistComponent
-  ],
+    BuglistComponent,
+    AdvancedSearchComponent
+],
   exports: [
     BugformComponent,
     BuglistComponent
