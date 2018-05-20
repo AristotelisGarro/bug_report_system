@@ -49,7 +49,8 @@
           <li *ngFor="let comment of bug.comments">{{comment.reporter}} - {{comment.description}}</li>
         </ul>
       </td>
-      <td><a class="btn btn-sm btn-outline-dark" [routerLink]="['../bug',bug.id]" role="button">Edit</a></td>
+      <td><a class="btn btn-sm btn-outline-dark" [routerLink]="['../bug',bug.id]" role="button">Edit</a>
+        <a class="btn btn-sm btn-outline-danger" (click)="deleteBug(bug)" role="button">Delete</a></td>
     </tr>
   </tbody>
 </table>

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IBugdetails } from '../interfaces/bugdetails';
 import { BugserviceService } from '../services/bugservice.service';
 import { AdvancedSearch } from '../classes/advanced-search.model';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -9,7 +10,8 @@ import { AdvancedSearch } from '../classes/advanced-search.model';
   templateUrl: './buglist.component.html',
   styleUrls: ['./buglist.component.scss']
 })
-export class BuglistComponent implements OnInit {
+export class BuglistComponent implements OnInit, OnDestroy {
+  private subscriptions: ISubscription[] = [];
   bugs: IBugdetails[];
   asc = true;
   sortedColumn: string;
@@ -20,7 +22,7 @@ export class BuglistComponent implements OnInit {
   totalBugs: number;
   filters: AdvancedSearch;
 
-  constructor(private bugService: BugserviceService) { }
+  constructor(private bugService: BugserviceService) {  }
 
   ngOnInit() {
     this.filters = new AdvancedSearch();
@@ -56,14 +58,15 @@ export class BuglistComponent implements OnInit {
 
   getBugs() {
     const direction = this.asc ? 'asc' : 'desc';
-    this.bugService.getBugsSorted(this.sortedColumn, direction, this.page, this.pagesize, this.filters).subscribe((data) => {
+    // tslint:disable-next-line:max-line-length
+    this.subscriptions.push(this.bugService.getBugsSorted(this.sortedColumn, direction, this.page, this.pagesize, this.filters).subscribe((data) => {
       this.bugs = data.body;
       // tslint:disable-next-line:radix
       const totalBugsHeader = parseInt(data.headers.get('totalRecords'));
       this.totalBugs = isNaN(totalBugsHeader) ? this.bugs.length : totalBugsHeader;
       this.totalpages = Math.ceil( this.totalBugs / this.pagesize );
       this.totalpagesArray = Array(this.totalpages || 1).fill(this.totalpages || 1).map((x, i) => i);
-    });
+    }));
   }
 
   sortBy(column) {
@@ -75,6 +78,18 @@ export class BuglistComponent implements OnInit {
   onSearch(data: AdvancedSearch) {
     this.filters = data;
     this.getBugs();
+  }
+
+  deleteBug(bug: IBugdetails) {
+    if (window.confirm('Are you sure you want to delete \r\n' + bug.title + '?')) {
+      this.subscriptions.push(this.bugService.deleteBug(bug.id).subscribe(() => this.getBugs()));
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((value) => {
+      value.unsubscribe();
+    });
   }
 
 }

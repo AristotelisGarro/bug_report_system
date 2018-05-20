@@ -12,6 +12,7 @@ import { IBugcomments } from '../interfaces/bugcomments';
 import { BugserviceService } from '../services/bugservice.service';
 import { Bugdetails } from '../classes/bugdetails';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,7 +20,8 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './bugform.component.html',
   styleUrls: ['./bugform.component.scss']
 })
-export class BugformComponent implements OnInit {
+export class BugformComponent implements OnInit, OnDestroy {
+  private subscriptions: ISubscription[] = [];
   formStatus = 'create';
   model: IBugdetails;
   priorities = [
@@ -49,22 +51,26 @@ export class BugformComponent implements OnInit {
   ngOnInit() {
     this.initForm();
 
-    this.route.params.subscribe(p => {
+    this.subscriptions.push(
+      this.route.params.subscribe(p => {
       const controlComments = <FormArray>this.bugForm.controls['comments'];
       if (p.id !== 'new') {
         this.setEditForm(p, controlComments);
       } else {
         this.setCreateForm(controlComments);
       }
-    });
+    }));
 
-    this.bugForm.get('title').valueChanges.subscribe((value: string) => {
+    this.subscriptions.push(
+      this.bugForm.get('title').valueChanges.subscribe((value: string) => {
       this.titleChange(value);
-    });
+    }))
+    ;
 
-    this.bugForm.get('reporter').valueChanges.subscribe((value: string) => {
+    this.subscriptions.push(
+      this.bugForm.get('reporter').valueChanges.subscribe((value: string) => {
       this.reporterChange(value);
-    });
+    }));
   }
 
   initForm() {
@@ -93,7 +99,8 @@ export class BugformComponent implements OnInit {
 
   setEditForm(p, controlComments) {
     this.formStatus = 'edit';
-    this.bugservice.getBugById(p.id).subscribe(data => {
+    this.subscriptions.push(
+      this.bugservice.getBugById(p.id).subscribe(data => {
       data.comments.forEach(item =>
         controlComments.push(
           this.fb.group({
@@ -112,7 +119,7 @@ export class BugformComponent implements OnInit {
         comments: controlComments.value
       });
       this.model = data;
-    });
+    }));
   }
 
   titleChange(value: string) {
@@ -147,7 +154,8 @@ export class BugformComponent implements OnInit {
       return;
     }
     if (this.formStatus === 'create') {
-      this.bugservice.createBug(value).subscribe(() => this.setFormPristine());
+      this.subscriptions.push(
+        this.bugservice.createBug(value).subscribe(() => this.setFormPristine()));
     } else {
       this.model.description = value.description;
       this.model.title = value.title;
@@ -156,7 +164,8 @@ export class BugformComponent implements OnInit {
       this.model.status = value.status;
       this.model.comments = value.comments;
 
-      this.bugservice.updateBug(this.model).subscribe(() => this.setFormPristine());
+      this.subscriptions.push(
+        this.bugservice.updateBug(this.model).subscribe(() => this.setFormPristine()));
     }
   }
 
@@ -182,5 +191,18 @@ export class BugformComponent implements OnInit {
 
   returnToList() {
     this.routeservice.navigate(['./bugs']);
+  }
+
+  clearForm() {
+    this.bugForm.reset();
+    this.bugForm.markAsDirty();
+    const controlComments = <FormArray>this.bugForm.controls['comments'];
+    controlComments.controls = [];
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((value) => {
+      value.unsubscribe();
+    });
   }
 }

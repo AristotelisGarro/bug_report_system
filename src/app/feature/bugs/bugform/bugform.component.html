@@ -101,7 +101,7 @@
 
   <div class="row">
     <div class="col-12 text-right mt-3">
-      <button class="btn btn-default mr-3" type="reset">Clear</button>
+      <button class="btn btn-default mr-3" type="button" (click)="clearForm()">Clear</button>
       <button [disabled]="!bugForm.valid" class="btn btn-primary btn-lg" type="submit">Submit</button>
     </div>
   </div>

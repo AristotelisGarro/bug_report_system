@@ -34,4 +34,8 @@ export class BugserviceService {
   updateBug(data: IBugdetails) {
     return this.http.put(this.ENDPOINT + 'bugs/' + data.id, data);
   }
+
+  deleteBug(id: string) {
+    return this.http.delete(this.ENDPOINT + 'bugs/' + id);
+  }
 }
